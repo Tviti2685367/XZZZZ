@@ -9,7 +9,7 @@ public class MacroCommand implements Command {
 
     @Override
     public void undo() {
-        System.out.println("Undoing macro command.");
+        System.out.println("Скасування команди макросу.");
         for (int i = commands.size() - 1; i >= 0; i--) {
             commands.get(i).undo();
         }

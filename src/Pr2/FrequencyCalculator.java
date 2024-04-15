@@ -2,7 +2,7 @@ public class FrequencyCalculator {
     private static final FrequencyCalculator instance = new FrequencyCalculator();
 
     private FrequencyCalculator() {
-        // Private constructor to prevent instantiation
+        // Приватний конструктор для запобігання створенню екземплярів
     }
 
     public static FrequencyCalculator getInstance() {

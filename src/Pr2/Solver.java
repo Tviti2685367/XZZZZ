@@ -5,17 +5,17 @@ public class Solver {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Enter body temperature:");
+        System.out.println("Введіть температуру тіла:");
         double bodyTemperature = scanner.nextDouble();
 
-        System.out.println("Enter physiological norm temperature:");
+        System.out.println("Введіть фізіологічну норму температури:");
         double physiologicalNormTemperature = scanner.nextDouble();
 
         HeartRateCalculator calculator = HeartRateCalculator.getInstance();
         double heartRate = calculator.calculateHeartRate(bodyTemperature, physiologicalNormTemperature);
-        System.out.println("Heart rate: " + heartRate + " beats per minute");
+        System.out.println("Пульс: " + heartRate + " ударів на хвилину");
 
-        System.out.println("Enter display option (1 - Text table, 2 - HTML table):");
+        System.out.println("Введіть параметр відображення (1 - Текстова таблиця, 2 - HTML Таблиця):");
         int displayOption = scanner.nextInt();
         CalculationResultRenderer renderer;
         if (displayOption == 1) {

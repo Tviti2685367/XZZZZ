@@ -8,16 +8,16 @@ public class Test {
         HeartRateCalculator heartRateCalculator = HeartRateCalculator.getInstance();
 
         try (Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Enter body temperature:");
+            System.out.println("Введіть температуру тіла:");
             double bodyTemperature = scanner.nextDouble();
 
-            System.out.println("Enter physiological norm temperature:");
+            System.out.println("Введіть фізіологічну норму температури:");
             double physiologicalNormTemperature = scanner.nextDouble();
 
             double heartRate = heartRateCalculator.calculateHeartRate(bodyTemperature, physiologicalNormTemperature);
-            System.out.println("Heart rate: " + heartRate + " beats per minute");
+            System.out.println("Пульс: " + heartRate + " ударів на хвилину");
 
-            System.out.println("Enter display option (1 - Text table, 2 - HTML table):");
+            System.out.println("Введіть параметр відображення (1 - Текстова таблиця, 2 - HTML Таблиця):");
             int displayOption = scanner.nextInt();
             CalculationResultRenderer renderer;
             if (displayOption == 1) {
@@ -25,7 +25,7 @@ public class Test {
             } else if (displayOption == 2) {
                 renderer = new HTMLTableResultRenderer();
             } else {
-                System.out.println("Invalid display option. Please choose 1 or 2.");
+                System.out.println("Недійсний параметр відображення. Будь ласка, виберіть 1 або 2.");
                 return;
             }
 
@@ -34,12 +34,12 @@ public class Test {
             System.out.println(renderedResult);
 
             parallelProcessingExample();
-            workerThreadExample();
+            workerThreadExample(bodyTemperature, physiologicalNormTemperature); // Передаємо параметри в метод
         }
     }
 
     private static void parallelProcessingExample() {
-        System.out.println("Parallel processing example:");
+        System.out.println("Приклад паралельної обробки:");
 
         List<Double> data = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
@@ -57,9 +57,9 @@ public class Test {
             double max = maxFuture.get();
             double avg = avgFuture.get();
 
-            System.out.println("Min: " + min);
-            System.out.println("Max: " + max);
-            System.out.println("Average: " + avg);
+            System.out.println("Мінімум: " + min);
+            System.out.println("Максимум: " + max);
+            System.out.println("Середнє знач: " + avg);
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         } finally {
@@ -67,8 +67,8 @@ public class Test {
         }
     }
 
-    private static void workerThreadExample() {
-        System.out.println("Worker thread example:");
+    private static void workerThreadExample(double bodyTemperature, double physiologicalNormTemperature) {
+        System.out.println("Приклад робочого потоку:");
 
         BlockingQueue<Command> queue = new LinkedBlockingQueue<>();
 
@@ -85,16 +85,29 @@ public class Test {
         });
 
         for (int i = 0; i < 10; i++) {
-            queue.add(new HeartRateCalculationCommand());
+            queue.add(new HeartRateCalculationCommand(bodyTemperature, physiologicalNormTemperature)); // Передаємо параметри
         }
 
-        executor.shutdown();
+        executor.shutdown(); // Завершуємо роботу виконавчого потоку
+        try {
+            executor.awaitTermination(1, TimeUnit.MINUTES); // Чекаємо закінчення роботи виконавчого потоку протягом 1 хвилини
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 
 class HeartRateCalculationCommand implements Command {
+    private double bodyTemperature;
+    private double physiologicalNormTemperature;
+
+    public HeartRateCalculationCommand(double bodyTemperature, double physiologicalNormTemperature) {
+        this.bodyTemperature = bodyTemperature;
+        this.physiologicalNormTemperature = physiologicalNormTemperature;
+    }
+
     @Override
     public void undo() {
-        // Not implemented as this is an example
+        // Реалізація скасування команди
     }
 }

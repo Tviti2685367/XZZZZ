@@ -15,7 +15,7 @@ public class MainTest {
     }
 
     public void testWithArguments() {
-        String[] args = {"Hello", "World!", "Zhenya"};
+        String[] args = {"Hello", "World!", "Olexandr"};
         ConsoleProgram.main(args); // Вызываем метод main из класса ConsoleProgram
     }
 }
